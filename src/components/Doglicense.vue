@@ -3,7 +3,7 @@
     <!-- 上部分 -->
     <div class="top-block">
       <div class="title">
-        养犬许可证
+        <!-- 养犬许可证 -->
       </div>
       <div class="line-wrap">
         <div class="line"></div>
@@ -52,7 +52,7 @@
     </div>
     <!-- 中间部分 -->
     <div class="center">
-      <img src="@/assets/pic.jpg" alt="tupian" class="center-img">
+      <!-- <img src="@/assets/pic.jpg" alt="tupian" class="center-img"> -->
       <div class="center-info">
         <div class="center-content">
           <div class="center-content-item">
@@ -75,7 +75,7 @@
             犬龄:
           </div>
           <div class="center-content-item" >
-            {{info.age}}
+            {{dogInfo.age}}
           </div>
         </div>
         <div class="center-content">
@@ -144,7 +144,10 @@ export default {
   name: 'doglicense',
   data () {
     return {
-      info: {
+      cardInfo: {
+        cardNumber: '观:2018111701215',
+      },
+      dogInfo: {
         age: 0,
         birthDate: new Date('2018-5-20')
       }
@@ -153,9 +156,9 @@ export default {
   methods: {
     getAge() {
       const nowDate = new Date();
-      const birthDate = this.info.birthDate;
+      const birthDate = this.dogInfo.birthDate;
       const old = Math.ceil((nowDate-birthDate)/31536000000);
-      this.info.age = old;
+      this.dogInfo.age = old;
     }
   },
   created() {

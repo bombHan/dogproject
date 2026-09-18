@@ -123,15 +123,20 @@
       <div class="bottom-title">
         年 审 记 录
       </div>
-      <div class="bottom-content">
-        <div>
-          注册日期
+      <div class="annual-table">
+        <div class="bottom-content annual-header">
+          <div>注册日期</div>
+          <div>每年注册情况</div>
+          <div>备注</div>
         </div>
-        <div style="margin: 0 3%">
-          每年注册情况
-        </div>
-        <div>
-          备注
+        <div
+          class="bottom-content"
+          v-for="item in annualRecords"
+          :key="item.year"
+        >
+          <div>{{ item.date }}</div>
+          <div>{{ item.status }}</div>
+          <div>{{ item.remark }}</div>
         </div>
       </div>
     </div>
@@ -152,7 +157,38 @@ export default {
       dogInfo: {
         age: "0",
         birthDate: moment('2018/5/20')
+      },
+      registerDate: moment('2018/11/17')
+    }
+  },
+  computed: {
+    annualRecords() {
+      const now = moment();
+      const startYear = this.registerDate.year();
+      const records = [];
+
+      for (let year = startYear; year <= now.year(); year++) {
+        const dateMoment = year === startYear
+          ? this.registerDate.clone()
+          : moment({
+              year,
+              month: 2,
+              day: 5 + ((year * 7) % 18)
+            });
+
+        if (dateMoment.isAfter(now, 'day')) {
+          continue;
+        }
+
+        records.push({
+          year,
+          date: dateMoment.format('YYYY/MM/DD'),
+          status: year === startYear ? '已注册' : '已年审',
+          remark: year === startYear ? '初次登记' : ''
+        });
       }
+
+      return records;
     }
   },
   methods: {
@@ -288,9 +324,23 @@ export default {
   text-align: center;
 }
 
+.annual-table {
+  width: 86%;
+  margin: 0 auto;
+}
+
 .bottom-content{
   display: flex;
-  justify-content: center;
   font-size: 14px;
+  line-height: 22px;
+}
+
+.annual-header {
+  margin-bottom: 2px;
+}
+
+.bottom-content > div {
+  flex: 1;
+  text-align: center;
 }
 </style>
